@@ -24,7 +24,7 @@ CREATE TYPE ORDER_STATUS AS ENUM ('pending', 'shipped', 'completed');
 CREATE TABLE IF NOT EXISTS orders
 (
     id          UUID           NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
-    customer_id INT REFERENCES customers (id),
+    customer_id UUID REFERENCES customers (id),
     status      ORDER_STATUS   NOT NULL             DEFAULT 'pending',
     total_price NUMERIC(10, 2) NOT NULL,
     created_at  TIMESTAMP                           DEFAULT NOW()
