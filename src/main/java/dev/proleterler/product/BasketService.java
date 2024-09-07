@@ -22,12 +22,14 @@ public class BasketService {
         var customerBasket = basketMap.get(customerId);
         if(customerBasket != null) {
             if(customerBasket.containsKey(productID)) {
-                customerBasket.put(productID, customerBasket.get(productID)+quantity);
+                customerBasket.put(productID, customerBasket.get(productID) + quantity);
             } else {
                 customerBasket.put(productID, quantity);
             }
         } else {
-            basketMap.put(customerId, Map.of(productID, quantity));
+            basketMap.put(customerId, new HashMap<>() {{
+                put(productID, quantity);
+            }});
         }
         log.info("exit from save basket service {}", basketMap);
     }
