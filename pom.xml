@@ -31,6 +31,7 @@
         <db.url>jdbc:postgresql://localhost:5432/paymentdb</db.url>
         <db.user>paymentapp</db.user>
         <db.pass></db.pass>
+        <db.schema>public</db.schema>
     </properties>
     <dependencies>
         <dependency>
@@ -123,6 +124,9 @@
                     <url>${db.url}</url>
                     <user>${db.user}</user>
                     <password>${db.pass}</password>
+                    <schemas>
+                        <schema>${db.schema}</schema>
+                    </schemas>
                     <locations>
                         <location>filesystem:src/main/resources/db/migration</location>
                     </locations>
@@ -140,15 +144,17 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <logging>WARN</logging>
+                    <logging>INFO</logging>
                     <jdbc>
                         <url>${db.url}</url>
                         <user>${db.user}</user>
                         <password>${db.pass}</password>
                     </jdbc>
                     <generator>
-                        <name>org.jooq.util.JavaGenerator</name>
+                        <name>org.jooq.codegen.JavaGenerator</name>
                         <database>
+                            <name>org.jooq.meta.postgres.PostgresDatabase</name>
+                            <inputSchema>public</inputSchema>
                             <includes>.*</includes>
                             <excludes>flyway_schema_history</excludes>
                         </database>
@@ -156,13 +162,17 @@
                             <packageName>dev.proleterler.generated.jooq</packageName>
                         </target>
                         <generate>
-                            <javaTimeTypes>true</javaTimeTypes>
+                            <pojos>true</pojos>
+                            <relations>true</relations>
+                            <daos>true</daos>
+                            <pojosEqualsAndHashCode>true</pojosEqualsAndHashCode>
+                            <fluentSetters>true</fluentSetters>
+                            <records>true</records>
+                            <validationAnnotations>true</validationAnnotations>
+                            <immutablePojos>true</immutablePojos>
                         </generate>
                     </generator>
-                    <generator>
-                    </generator>
                 </configuration>
-
             </plugin>
         </plugins>
     </build>

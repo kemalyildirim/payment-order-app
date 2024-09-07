@@ -1,19 +1,22 @@
 package dev.proleterler.customer.persistence;
 
+import dev.proleterler.generated.jooq.tables.records.CustomersRecord;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
-import org.jooq.generated.public_.tables.Customers;
 import org.springframework.stereotype.Repository;
 
-import static org.jooq.generated.public_.Tables.CUSTOMERS;
+import java.util.List;
+
+import static dev.proleterler.generated.jooq.tables.Customers.CUSTOMERS;
+
 
 @Repository
 @RequiredArgsConstructor
 public class CustomerRepository {
     private final DSLContext dslContext;
 
-    public void test() {
-        dslContext.select(CUSTOMERS)
+    public List<CustomersRecord> test() {
+        return dslContext.selectFrom(CUSTOMERS).limit(10).fetch();
     }
 
 }
