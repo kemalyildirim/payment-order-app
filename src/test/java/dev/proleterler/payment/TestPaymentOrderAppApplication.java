@@ -1,5 +1,6 @@
-package dev.proleterler.paymentorderapp;
+package dev.proleterler.payment;
 
+import dev.proleterler.PaymentOrderAppApplication;
 import org.springframework.boot.SpringApplication;
 
 public class TestPaymentOrderAppApplication {

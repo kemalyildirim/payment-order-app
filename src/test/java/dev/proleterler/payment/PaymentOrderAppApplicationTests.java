@@ -1,4 +1,4 @@
-package dev.proleterler.paymentorderapp;
+package dev.proleterler.payment;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
