@@ -6,6 +6,10 @@ import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static dev.proleterler.generated.jooq.tables.Products.PRODUCTS;
 
@@ -26,5 +30,16 @@ public class ProductRepository {
                 .values(name, stockQuantity, price)
                 .returning()
                     .fetchOneInto(Product.class);
+    }
+
+    public int getProductQuantity(UUID productId) {
+        return dslContext.select(PRODUCTS.STOCK_QUANTITY).from(PRODUCTS).where(PRODUCTS.ID.eq(productId)).fetchOneInto(int.class);
+    }
+
+    public Map<UUID, BigDecimal> getPricePerProduct(Set<UUID> productIds) {
+        return dslContext.select(PRODUCTS.ID, PRODUCTS.PRICE).from(PRODUCTS).
+                where(PRODUCTS.ID.in(productIds)).
+                collect(Collectors.
+                        toMap(r -> r.into(PRODUCTS.ID).into(UUID.class), r -> r.into(PRODUCTS.PRICE).into(BigDecimal.class)));
     }
 }
