@@ -7,6 +7,7 @@ import dev.proleterler.product.model.Product;
 import dev.proleterler.product.web.command.AddBasketCommand;
 import dev.proleterler.product.web.command.SaveProductCommand;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +28,11 @@ public class ProductController {
 
     @PostMapping("/basket")
     public ResponseEntity<?> addToBasket(@RequestBody AddBasketCommand addBasketCommand){
-        return basketService.addToMap(addBasketCommand.customerId(), addBasketCommand.productId(), addBasketCommand.quantity());
+        try {
+            basketService.addToMap(addBasketCommand.customerId(), addBasketCommand.productId(), addBasketCommand.quantity());
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

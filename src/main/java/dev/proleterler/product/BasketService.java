@@ -22,27 +22,21 @@ public class BasketService {
     public static final Map<UUID, Map<UUID, Integer>> basketMap = new ConcurrentHashMap<>();
     public final ProductService productService;
 
-    public ResponseEntity<?> addToMap(UUID customerId, UUID productID, int quantity){
+    public void addToMap(UUID customerId, UUID productID, int quantity){
         var customerBasket = basketMap.get(customerId);
         if(customerBasket != null) {
             if(customerBasket.containsKey(productID)) {
                 log.error("quantity: {}", productService.getProductQuantity(productID));
                 if(productService.getProductQuantity(productID) > customerBasket.get(productID) + quantity) {
                     customerBasket.put(productID, customerBasket.get(productID) + quantity);
-                    return ResponseEntity.status(HttpStatus.OK)
-                            .body("added to basket successfully");
                 } else {
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                    .body("there is no enough quantity");
+                    throw new RuntimeException("there is no enough quantity");
                 }
             } else {
                 if(productService.getProductQuantity(productID) > quantity) {
                     customerBasket.put(productID, quantity);
-                    return ResponseEntity.status(HttpStatus.OK)
-                            .body("added to basket successfully");
                 } else {
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                            .body("there is no enough quantity");
+                    throw new RuntimeException("there is no enough quantity");
                 }
 
             }
@@ -52,11 +46,8 @@ public class BasketService {
                 basketMap.put(customerId, new HashMap<>() {{
                     put(productID, quantity);
                 }});
-                return ResponseEntity.status(HttpStatus.OK)
-                        .body("added to basket successfully");
             } else {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body("there is no enough quantity");
+                throw new RuntimeException("there is no enough quantity");
             }
         }
     }
