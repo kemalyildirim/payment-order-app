@@ -1,4 +1,4 @@
-package dev.proleterler.configuration;
+package dev.proleterler.configuration.jooq;
 
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;

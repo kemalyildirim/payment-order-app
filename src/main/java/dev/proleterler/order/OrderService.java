@@ -16,6 +16,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final BasketService basketService;
     private final ProductService productService;
+    private final OrderProducerService producerService;
 
     public Order createOrder(UUID customerId) {
         var basketMap = basketService.getBasketMap(customerId);
@@ -31,6 +32,7 @@ public class OrderService {
         }
         var order = orderRepository.saveOrder(customerId, totalPrice);
         orderRepository.saveOrderItem(order.id(), basketMap);
+        producerService.publishOrder(order);
         return order;
     }
 }
