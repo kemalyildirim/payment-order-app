@@ -1,5 +1,6 @@
 package dev.proleterler.kafka.producer;
 
+import io.confluent.kafka.serializers.KafkaAvroSerializer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,7 +29,8 @@ public class KafkaProducerConfig<K, V> {
                 StringSerializer.class);
         configProps.put(
                 ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
-                StringSerializer.class);
+                KafkaAvroSerializer.class);
+        configProps.put("schema.registry.url", "http://localhost:8081");
         return new DefaultKafkaProducerFactory<>(configProps);
     }
 

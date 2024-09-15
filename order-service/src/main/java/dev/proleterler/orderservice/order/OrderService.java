@@ -1,5 +1,6 @@
 package dev.proleterler.orderservice.order;
 
+import dev.proleterler.kafka.model.OrderAvroModel;
 import dev.proleterler.orderservice.order.model.Order;
 import dev.proleterler.orderservice.order.persistence.OrderRepository;
 import dev.proleterler.orderservice.product.BasketService;
@@ -8,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.nio.ByteBuffer;
 import java.util.UUID;
 
 @Service
@@ -32,7 +35,31 @@ public class OrderService {
         }
         var order = orderRepository.saveOrder(customerId, totalPrice);
         orderRepository.saveOrderItem(order.id(), basketMap);
-        producerService.publishOrder(order);
+        producerService.publishOrder(
+                OrderAvroModel.newBuilder()
+                        .setId(order.id().toString())
+                        .setOrderStatus(order.orderStatus().toString())
+                        .setCustomerId(order.customerId().toString())
+                        .setTotalPrice(bigDecimalToBytes(order.totalPrice()))
+                        .setCreatedAt(order.createdAt())
+                        .build()
+        );
         return order;
+    }
+
+    private static ByteBuffer bigDecimalToBytes(BigDecimal bigDecimal) {
+        // Convert BigDecimal to its unscaled value and scale
+        BigInteger unscaledValue = bigDecimal.unscaledValue();
+        int scale = bigDecimal.scale();
+
+        // Convert the unscaled value to byte array
+        byte[] unscaledBytes = unscaledValue.toByteArray();
+
+        // Allocate ByteBuffer to store both the scale and the unscaled bytes
+        ByteBuffer byteBuffer = ByteBuffer.allocate(4 + unscaledBytes.length); // 4 bytes for scale (int)
+        byteBuffer.putInt(scale); // Store the scale
+        byteBuffer.put(unscaledBytes); // Store the unscaled value
+
+        return byteBuffer; // Return combined byte array
     }
 }

@@ -11,19 +11,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>order-service</name>
     <description>order-service</description>
-    <url/>
-    <licenses>
-        <license/>
-    </licenses>
-    <developers>
-        <developer/>
-    </developers>
-    <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
-    </scm>
+
     <properties>
         <java.version>21</java.version>
         <db.url>jdbc:postgresql://localhost:5432/paymentdb</db.url>
@@ -33,12 +21,29 @@
     </properties>
     <dependencies>
         <dependency>
+            <groupId>dev.proleterler.kafka</groupId>
+            <artifactId>admin</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>dev.proleterler.kafka</groupId>
+            <artifactId>producer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>dev.proleterler.kafka</groupId>
+            <artifactId>model</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jooq</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
@@ -169,7 +174,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.2.0</version>
                 <executions>
                     <execution>
                         <id>add-source</id>

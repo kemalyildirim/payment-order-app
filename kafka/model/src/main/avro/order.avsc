@@ -1,33 +1,41 @@
 {
-  "namespace": "dev.yonsu.microservices.kafka.model",
+  "namespace": "dev.proleterler.kafka.model",
   "type": "record",
-  "name": "TwitterAvroModel",
+  "name": "OrderAvroModel",
   "fields": [
     {
-      "name": "userId",
-      "type": "long"
-    },
-    {
       "name": "id",
-      "type": "long"
+      "type": {
+        "type": "string",
+        "logicalType": "UUID"
+      }
     },
     {
-      "name": "text",
-      "type": [
-        "null",
-        "string"
-      ]
+      "name": "customerId",
+      "type": {
+        "type": "string",
+        "logicalType": "UUID"
+      }
+    },
+    {
+      "name": "orderStatus",
+      "type": "string"
+    },
+    {
+      "name": "totalPrice",
+      "type": {
+        "type": "bytes",
+        "logicalType": "decimal",
+        "precision": 10,
+        "scale": 2
+      }
     },
     {
       "name": "createdAt",
-      "type": [
-        "null",
-        "long"
-      ],
-      "logicalType": [
-        "null",
-        "date"
-      ]
+      "type": {
+        "type": "long",
+        "logicalType": "local-timestamp-millis"
+      }
     }
   ]
 }

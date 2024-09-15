@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS products
     created_at     TIMESTAMP                           DEFAULT NOW()
 );
 
-CREATE TYPE ORDER_STATUS AS ENUM ('pending', 'shipped', 'completed');
+CREATE TYPE ORDER_STATUS AS ENUM ('pending', 'shipped', 'completed', 'cancelled');
 
 CREATE TABLE IF NOT EXISTS orders
 (
