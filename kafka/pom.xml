@@ -4,15 +4,20 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>dev.proleterler</groupId>
-        <artifactId>payment-order-app</artifactId>
+        <artifactId>payment-order-microservices-parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>kafka</artifactId>
+    <artifactId>kafka-parent</artifactId>
+    <modules>
+        <module>admin</module>
+        <module>model</module>
+        <module>producer</module>
+    </modules>
+    <groupId>dev.proleterler.kafka</groupId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>kafka</name>
+    <name>Kafka Modules Parent</name>
     <packaging>pom</packaging>
     <properties>
         <java.version>21</java.version>
     </properties>
-
 </project>

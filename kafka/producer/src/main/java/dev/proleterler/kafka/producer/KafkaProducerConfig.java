@@ -1,4 +1,4 @@
-package dev.proleterler.orderservice.configuration.kafka;
+package dev.proleterler.kafka.producer;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
